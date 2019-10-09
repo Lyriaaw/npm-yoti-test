@@ -1,0 +1,56 @@
+{
+  "name": "yoti-share-react",
+  "version": "0.1.0",
+  "description": "Yoti QR Modal component for React.js",
+  "author": "Yoti LTD <tech@yoti.com> (https://yoti.com/developers)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/getyoti/yoti-share-react"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "npm run lint && npm run unit-test",
+    "unit-test": "jest",
+    "lint": "node_modules/.bin/eslint src/**/*.ts src/**/*.tsx",
+    "build": "npm run clean && npm run transpile",
+    "transpile": "tsc",
+    "clean": "rm -rf dist/"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test"
+    }
+  },
+  "dependencies": {
+    "lodash": "^4.17.15",
+    "prop-types": "^15.7.2",
+    "react": "^16.10.2"
+  },
+  "devDependencies": {
+    "@fluffy-spoon/substitute": "^1.89.0",
+    "@types/enzyme": "^3.10.3",
+    "@types/enzyme-adapter-react-16": "^1.0.5",
+    "@types/jest": "^24.0.18",
+    "@types/lodash": "^4.14.142",
+    "@types/react": "^16.9.5",
+    "@typescript-eslint/eslint-plugin": "^2.3.3",
+    "@typescript-eslint/parser": "^2.3.3",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
+    "enzyme-to-json": "^3.4.2",
+    "eslint": "^6.5.1",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-airbnb-typescript": "^5.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jest": "^22.17.0",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.16.0",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "jest": "^24.9.0",
+    "react-dom": "^16.10.2",
+    "ts-jest": "^24.1.0",
+    "typescript": "^3.6.3"
+  }
+}

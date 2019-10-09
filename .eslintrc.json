@@ -1,0 +1,12 @@
+{
+    "extends": [
+        "airbnb-typescript"
+    ],
+    "rules": {
+        "react/jsx-props-no-spreading": 0
+    },
+    "env": {
+        "browser": true,
+        "jest": true
+    }
+}
