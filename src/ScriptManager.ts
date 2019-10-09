@@ -45,7 +45,7 @@ export default class ScriptManager implements IScriptManager {
         if (this.instance) {
           this.instance.destroy();
         }
-        // @ts-ignore
+
         this.instance = window.Yoti.Share.init({ elements: config });
       }
     }

@@ -7,17 +7,6 @@ type Mockify<T> = {
   [P in keyof T]: jest.Mock<{}>;
 };
 
-const scriptManagerMock: Mockify<IScriptManager> = {
-  registerComponent: jest.fn(),
-  deregisterComponent: jest.fn(),
-};
-
-beforeEach(() => {
-  // Reset the mock before each run
-  scriptManagerMock.registerComponent = jest.fn();
-  scriptManagerMock.deregisterComponent = jest.fn();
-});
-
 describe('Yoti Functional Component', () => {
   test('it should render basic <div/> with correct id', () => {
     const wrapper = shallow(
@@ -29,6 +18,17 @@ describe('Yoti Functional Component', () => {
 });
 
 describe('YotiShare Component', () => {
+  const scriptManagerMock: Mockify<IScriptManager> = {
+    registerComponent: jest.fn(),
+    deregisterComponent: jest.fn(),
+  };
+
+  beforeEach(() => {
+    // Reset the mock before each run
+    scriptManagerMock.registerComponent = jest.fn();
+    scriptManagerMock.deregisterComponent = jest.fn();
+  });
+
   test('it should pass className down', () => {
     const yoti = mount(
       <YotiShare
@@ -42,10 +42,25 @@ describe('YotiShare Component', () => {
     expect(yoti.hasClass('my-class')).toBe(true);
   });
 
+  test('it should pass style down', () => {
+    const yoti = mount(
+      <YotiShare
+        domId="yoti_1"
+        scenarioId="my_scenario_id"
+        clientSdkId="my_sdk_id"
+        style={{
+          width: 200,
+        }}
+      />,
+    ).find('div');
+
+    expect(yoti.prop('style')).toHaveProperty('width', 200);
+  });
+
   test('it should register component with script manager when mounted', () => {
-    const YotiComponent = withScriptManager(scriptManagerMock, Yoti);
+    const YotiMockComponent = withScriptManager(scriptManagerMock, Yoti);
     const wrapper = shallow(
-      <YotiComponent domId="yoti_1" clientSdkId="my_sdk_id" scenarioId="some_scenario_id" />,
+      <YotiMockComponent domId="yoti_1" clientSdkId="my_sdk_id" scenarioId="some_scenario_id" />,
     );
 
     expect(wrapper).not.toBeUndefined();
@@ -53,9 +68,9 @@ describe('YotiShare Component', () => {
   });
 
   test('it should deregister component with script manager when unmounting', () => {
-    const YotiComponent = withScriptManager(scriptManagerMock, Yoti);
+    const YotiMockComponent = withScriptManager(scriptManagerMock, Yoti);
     const wrapper = shallow(
-      <YotiComponent domId="yoti_1" clientSdkId="my_sdk_id" scenarioId="some_scenario_id" />,
+      <YotiMockComponent domId="yoti_1" clientSdkId="my_sdk_id" scenarioId="some_scenario_id" />,
     );
 
     wrapper.unmount();
