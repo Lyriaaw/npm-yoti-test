@@ -1,6 +1,10 @@
+/* eslint-disable react/prefer-stateless-function */
 import React from 'react';
 
-import ScriptManager, { IScriptManager } from './ScriptManager';
+import ScriptManager from './ScriptManager';
+import withScriptManager from './ScriptManagerHOC';
+
+import { YotiShare } from './types';
 
 /**
  * Functional component used for rendering
@@ -8,40 +12,16 @@ import ScriptManager, { IScriptManager } from './ScriptManager';
  * @param domId - the domId that the button will be rendered on
  */
 // eslint-disable-next-line max-len
-export const Yoti: React.SFC<YotiProps> = ({ domId, style, className }: YotiProps) => <div id={domId} style={style} className={className} />;
-
-export type YotiButtonProps = {
-  label?: string,
-  align?: 'center' | 'left' | 'right',
-  width?: 'auto' | 'full'
-};
-
-export interface YotiProps extends React.HTMLAttributes<HTMLElement> {
-  domId: string,
-  clientSdkId: string,
-  scenarioId: string,
-  shareUrl?: string
-  button?: YotiButtonProps,
-}
-
-export function withScriptManager<T extends YotiProps>(
-  scriptManager: IScriptManager,
-  WrappedComponent: React.ComponentType<T>,
-) {
-  return class extends React.Component<T> {
-    componentDidMount() {
-      scriptManager.registerComponent(this);
-    }
-
-    componentWillUnmount() {
-      scriptManager.deregisterComponent(this);
-    }
-
-    render() {
-      return <WrappedComponent {...this.props} />;
-    }
-  };
+export class YotiComponent extends React.Component<YotiShare> {
+  render() {
+    const {
+      domId, clientSdkId, scenarioId, button, shareUrl, ...rest
+    } = this.props;
+    return (
+      <div {...({ id: domId, ...rest } as React.HTMLAttributes<HTMLElement>)} />
+    );
+  }
 }
 
 const scriptManager = new ScriptManager();
-export default withScriptManager(scriptManager, Yoti);
+export default withScriptManager(scriptManager, YotiComponent);

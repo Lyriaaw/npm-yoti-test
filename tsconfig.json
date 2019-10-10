@@ -25,7 +25,8 @@
         "esModuleInterop": true
     },
     "include": [
-        "src"
+        "src",
+        "__tests__"
     ],
     "exclude": [
         "__tests__",

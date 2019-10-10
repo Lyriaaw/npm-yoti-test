@@ -1,7 +1,10 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
-import YotiShare, { Yoti, withScriptManager } from '../src/Yoti';
-import { IScriptManager } from '../src/ScriptManager';
+import { mount } from 'enzyme';
+
+import withScriptManager from '../ScriptManagerHOC';
+import YotiShare, { YotiComponent } from '../Yoti';
+
+import { IScriptManager } from '../types';
 
 type Mockify<T> = {
   [P in keyof T]: jest.Mock<{}>;
@@ -9,8 +12,8 @@ type Mockify<T> = {
 
 describe('Yoti Functional Component', () => {
   test('it should render basic <div/> with correct id', () => {
-    const wrapper = shallow(
-      <Yoti domId="yoti_1" scenarioId="my_scenario_id" clientSdkId="my_sdk_id" />,
+    const wrapper = mount(
+      <YotiShare domId="yoti_1" scenarioId="my_scenario_id" clientSdkId="my_sdk_id" />,
     );
 
     expect(wrapper.find('div#yoti_1')).toHaveLength(1);
@@ -58,8 +61,8 @@ describe('YotiShare Component', () => {
   });
 
   test('it should register component with script manager when mounted', () => {
-    const YotiMockComponent = withScriptManager(scriptManagerMock, Yoti);
-    const wrapper = shallow(
+    const YotiMockComponent = withScriptManager(scriptManagerMock, YotiComponent);
+    const wrapper = mount(
       <YotiMockComponent domId="yoti_1" clientSdkId="my_sdk_id" scenarioId="some_scenario_id" />,
     );
 
@@ -68,8 +71,8 @@ describe('YotiShare Component', () => {
   });
 
   test('it should deregister component with script manager when unmounting', () => {
-    const YotiMockComponent = withScriptManager(scriptManagerMock, Yoti);
-    const wrapper = shallow(
+    const YotiMockComponent = withScriptManager(scriptManagerMock, YotiComponent);
+    const wrapper = mount(
       <YotiMockComponent domId="yoti_1" clientSdkId="my_sdk_id" scenarioId="some_scenario_id" />,
     );
 

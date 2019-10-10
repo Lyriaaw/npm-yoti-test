@@ -1,10 +1,7 @@
 // import * as React from 'react';
 import _ from 'lodash';
 
-export interface IScriptManager {
-  registerComponent: (component: any) => void;
-  deregisterComponent: (component: any) => void;
-}
+import { IScriptManager, WebShareConfig } from './types';
 
 export default class ScriptManager implements IScriptManager {
   private components: object;
@@ -26,21 +23,22 @@ export default class ScriptManager implements IScriptManager {
     this.updateComponents = _.debounce(this.updateComponents);
   }
 
-  registerComponent = component => {
-    this.components[component.props.domId] = component;
+  registerComponent = (id: string, config: WebShareConfig) => {
+    this.components[id] = { ...config };
     this.updateComponents();
   };
 
-  deregisterComponent = component => {
-    delete this.components[component.props.domId];
+  deregisterComponent = (id: string) => {
+    delete this.components[id];
     this.updateComponents();
   };
 
   protected updateComponents = () => {
     if (this.loaded) {
-      const keys = Object.keys(this.components);
-      if (keys.length > 0) {
-        const config = keys.map(componentKey => this.components[componentKey].props);
+      const ids = Object.keys(this.components);
+      if (ids.length > 0) {
+        const config = ids.map(id => this.components[id]);
+        console.log(config);
 
         if (this.instance) {
           this.instance.destroy();
