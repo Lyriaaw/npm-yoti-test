@@ -24,7 +24,7 @@ export default class ScriptManager implements IScriptManager {
   }
 
   registerComponent = (id: string, config: WebShareConfig) => {
-    this.components[id] = { ...config };
+    this.components[id] = config;
     this.updateComponents();
   };
 
@@ -38,7 +38,6 @@ export default class ScriptManager implements IScriptManager {
       const ids = Object.keys(this.components);
       if (ids.length > 0) {
         const config = ids.map(id => this.components[id]);
-        console.log(config);
 
         if (this.instance) {
           this.instance.destroy();
